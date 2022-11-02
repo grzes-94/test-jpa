@@ -1,26 +1,20 @@
 package pl.enderqube.testplugin;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import pl.enderqube.shared.guice.DatabaseModule;
-import pl.enderqube.shared.guice.RepositoryModule;
-import pl.enderqube.shared.persistence.repositories.user.UserRepository;
-import pl.enderqube.shared.persistence.repositories.user.UserRepositoryInterface;
+import com.google.inject.Provides;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import pl.enderqube.shared.i18n.MessageBundle;
+import pl.enderqube.shared.i18n.MessageRepository;
+
+import java.util.Locale;
 
 public class Main {
 
-
+    private static final ThreadLocal<EntityManager> ENTITY_MANAGER_CACHE
+            = new ThreadLocal<EntityManager>();
 
     public static void main(String[] args) {
 
-        Injector injector = Guice.createInjector(new DatabaseModule());
-       UserRepositoryInterface repo = injector.getInstance(UserRepository.class);
-
-        var all = repo.findAll();
-        System.out.println(all.stream().count());
-        for(var user: all) {
-            System.out.println(user);
-        }
     }
+
 }
